@@ -1,3 +1,22 @@
+I believe that the statement "This displays the signal ALU_result" is incorrect.
+Instead, when execution pauses on a WAIT instruction it is the contents of R0
+that are displayed if the data select knob is in the DATA PATHS position.  The
+reference I have available is the Processor Handbook for the PDP11/45 where the
+description of the HALT instruction explicitly states that the console data
+lights display the contents of R0.  The description of the WAIT instruction does
+not include this statement, but my experience from developing a PDP11 OS in the
+1970s includes the notion that WAIT also displays R0.  The comment on the WAIT
+instruction in our code includes that statement (although of course that proves
+nothing).
+
+For some OS idle loops, the instruction right before the WAIT modifies R0, so
+the ALU_result and the content of R0 would be the same.  For the IAS codes shown
+below, this is not the case, so that might explain why the expected display was
+not seen.
+
+Stephen Casner, 2018-09-26
+-------------------------------------------------------------------------------
+
 IDLE PPATTERNS
 -
 
@@ -78,7 +97,7 @@ capable project - I wish the commerical software I have to deal with was half as
 
 
 
------Original Message----- From: Jörg Hoppe
+-----Original Message----- From: JÃ¶rg Hoppe
 Sent: Monday, May 09, 2016 12:34 AM
 To: Lee Gleason
 Subject: Re: 11/70 SIMH console display
@@ -123,16 +142,16 @@ Am 08.05.2016 um 23:26 schrieb Lee Gleason:
 >
 >
 >   I downloaded the 11/70 console display system from Github and booted
-> RSX11M with it – it was good to see the idle loop pattern again, haven’t
+> RSX11M with it â€“ it was good to see the idle loop pattern again, havenâ€™t
 > seen it in years.
 >
->   I then booted an IAS-11 disk, and didn’t get the idle pattern I
-> excepted to see – it just blinked the lower two bits rapdily, instead of
-> displaying the side to side “snake” pattern IAS produces. I’m about to
-> dive into the code and see what’s up, but before I do that, I thought
-> I’d ask, does the console display fully support supervisor mode? Because
+>   I then booted an IAS-11 disk, and didnâ€™t get the idle pattern I
+> excepted to see â€“ it just blinked the lower two bits rapdily, instead of
+> displaying the side to side â€œsnakeâ€ pattern IAS produces. Iâ€™m about to
+> dive into the code and see whatâ€™s up, but before I do that, I thought
+> Iâ€™d ask, does the console display fully support supervisor mode? Because
 > I think that IAS uses supervisor mode to run the idle loop.
->   Anyway, it looks like a great piece of code – thanks for making it
+>   Anyway, it looks like a great piece of code â€“ thanks for making it
 > available.
 >
 > --
